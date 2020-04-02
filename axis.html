@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>scaleLinear</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+
+<svg width="100%" height="300"></svg>
+
+</body>
+
+<script>
+
+    var data = [7.3,5.3,3.3,2.3,1.3];
+
+    //定义比例尺
+    var scaleLinear = d3.scaleLinear().domain([0,d3.max(data)]).range([0,800]);
+
+    var g = d3.select('svg')
+        .append('g')
+        .attr('transform','translate(30,30)');
+
+    var rectHeight = 30;
+
+    g.selectAll('rect')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('x',0)
+        .attr('y',function (d,i) {
+            return rectHeight*i;
+        })
+        .attr('width',function (d,i) {
+            return scaleLinear(d);//在这里的得到 映射的宽度
+        })
+        .attr('height',rectHeight - 5)
+        .attr('fill','pink');
+
+
+    //定义一个x坐标轴   坐标轴的比例尺 我们跟图表的用一个
+    var axisX = d3.axisBottom(scaleLinear).ticks(20);//ticks 用来设置刻度间隔    其实就是把data数据 根据咱们的参数20  重新调整一下
+
+    g.append('g')//在原有分g矩形分组里 再加一个x轴分组
+        .attr('transform','translate(0,'+ data.length*rectHeight +')')
+        .call(axisX);
+
+</script>
+
+</html>

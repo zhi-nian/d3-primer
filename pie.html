@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pie</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+
+<svg width="500" height="400"></svg>
+
+</body>
+
+<script>
+
+    //准备数据
+    var margin = 30;//边距
+    var data = [56,21,11,85,42,66];//绘制饼图所需数据
+    var svg = d3.select('svg');
+    var width = svg.attr('width');
+    var height = svg.attr('height');
+
+    //创建一个分组 并设置偏移
+    var g = svg.append('g').attr('transform','translate('+ margin +','+ margin +')');
+
+    //为了让饼图不同区域显示不同颜色   我们先创建一个颜色比例尺   用之前我们讲到的序数比例尺
+    var scaleColor = d3.scaleOrdinal()
+        .domain(d3.range(data.length))
+        .range(d3.schemeCategory10);
+
+    //创建一个饼图
+    var pie = d3.pie();
+
+    //创建一个弧形生成器
+    var arc = d3.arc()
+        .innerRadius(0)//设置环的内半径.
+        .outerRadius(100)//设置环的外半径.
+    //除了内半径与外半径  还可以设置很多  如下
+//        arc.cornerRadius - 设置拐角半径.
+//        arc.startAngle - 设置起始角度.
+//        arc.endAngle - 设置终止角度.
+//        arc.padAngle - 设置相邻两个环之间的间隙角度.
+//        arc.padRadius - 设置半径间隔.
+//        arc.context - 设置渲染上下文.
+
+
+    //利用pie 转换数据
+    var pieData = pie(data);
+    console.log(pieData);//看看转换成了啥
+
+
+    //创建扇形分组
+    var gs = g.selectAll('.g')
+        .data(pieData)
+        .enter()
+        .append('g')
+        .attr('transform','translate('+ width/2 +','+ height/2 +')');
+
+
+    //绘制扇形
+    gs.append('path')
+        .attr('d',function (d,i) {
+
+            return arc(d);//给弧形生成器添加数据
+
+        })
+        .attr('fill',function (d,i) {
+            return scaleColor(i);//给扇形填充颜色
+        })
+
+
+    //绘制文字
+    gs.append('text')
+        .attr('transform',function (d,i) {
+            return 'translate('+ arc.centroid(d) +')';//位置设置在扇形中心处
+        })
+        .attr("text-anchor","middle")
+        .text(function (d,i) {
+            return d.data;
+        })
+
+</script>
+
+</html>

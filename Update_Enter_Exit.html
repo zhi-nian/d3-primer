@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+
+<h2>《执迷不悔》</h2>
+
+<h3></h3>
+<h3></h3>
+<h3></h3>
+
+
+</body>
+<script>
+
+    var lyrics = [
+
+        '我不是你们想的如此完美',
+        '我承认有时也会辨不清真伪',
+        '并非我不愿意走出迷堆 只是这一次',
+        '这次是自己(而)不是谁',
+        '要我用谁的心去体会 真真切切地感受周围',
+        '就算痛苦 就算是泪 也是属于我的伤悲',
+        '我还能用谁的心去体会 真真切切地感受周围',
+        '就算疲倦 就算是累 也只能执迷(而)不悔'
+
+    ]
+
+//    var h3 = d3.select('body').selectAll('h3');
+    var h3 = d3.selectAll('h3');
+
+    var updata = h3.data(lyrics);
+    var enter = updata.enter();
+    console.log('updata↓↓↓↓↓')
+    console.log(updata)
+    console.log('enter↓↓↓↓↓')
+    console.log(enter)
+
+    updata.text(function (v, i) {
+        return v;
+    })
+
+    //    代码执行到这里 页面所展示内容如下
+    //
+    //    执迷不悔
+    //    我不是你们想的如此完美
+    //    我承认有时也会辨不清真伪
+    //    并非我不愿意走出迷堆 只是这一次
+
+
+    //因为h3标签不够  所以需要先添加h3标签 再给新添加的h3标签绑定后续的数据
+
+    var addH3 = enter.append('h3');//注意 这里是往enter中插入h3
+    console.log(enter)
+    addH3.text(function (v, i) {//给新添加的h3标签 绑定数据
+        return v;
+    })
+
+//    执行到这里 页面展示内容如下
+//
+//    《执迷不悔》
+//    我不是你们想的如此完美
+//    我承认有时也会辨不清真伪
+//    并非我不愿意走出迷堆 只是这一次
+//    这次是自己(而)不是谁
+//    要我用谁的心去体会 真真切切地感受周围
+//    就算痛苦 就算是泪 也是属于我的伤悲
+//    我还能用谁的心去体会 真真切切地感受周围
+//    就算疲倦 就算是累 也只能执迷(而)不悔
+
+
+</script>
+</html>

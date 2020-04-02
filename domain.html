@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>比例尺的使用</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+
+</body>
+
+<script>
+
+    //线性比例尺
+    var scaleLiner = d3.scaleLinear()
+        .domain([0,3])
+        .range([0,300])
+
+    console.log(scaleLiner(0));//输出 0
+    console.log(scaleLiner(1));//输出 100
+    console.log(scaleLiner(2));//输出 200
+    console.log(scaleLiner(3));//输出 300
+
+    //序数比例尺
+    var color = ['blue','red','green','pink']
+    var scaleOrdinal = d3.scaleOrdinal()
+        .domain([0,1,2,3])
+        .range(color)
+
+    for (var i = 0; i < color.length; i++ ) {
+        d3.select('body').append('div').text('请看我的颜色').style('color',scaleOrdinal(i));
+    }
+
+
+</script>
+
+</html>

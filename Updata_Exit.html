@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+
+<h3>这是一个h3标签</h3>
+<h3>这是一个h3标签</h3>
+<h3>这是一个h3标签</h3>
+<h3>这是一个h3标签</h3>
+<h3>这是一个h3标签</h3>
+<h3>这是一个h3标签</h3>
+<h3>这是一个h3标签</h3>
+
+</body>
+
+<script>
+
+    var lyrics = [
+        '我不是你们想的如此完美',
+        '我承认有时也会辨不清真伪'
+    ]
+    var h3 = d3.select('body').selectAll('h3');
+
+
+    var  updata = h3.data(lyrics);
+    var  exit = updata.exit();
+    console.log(updata)
+    console.log(exit)
+
+    updata.text(function (v,i) {
+        return v;
+    });
+
+//    执行到这里 界面显示的内容
+//
+//
+//    我不是你们想的如此完美
+//    我承认有时也会辨不清真伪
+//    这是一个h3标签
+//    这是一个h3标签
+//    这是一个h3标签
+//    这是一个h3标签
+//    这是一个h3标签
+
+
+
+
+//    exit.remove();//删除多余的h3元素
+    exit.text(function (v,i) {
+        return '我不删了，我就留着';
+    });
+
+//    执行到这里 界面显示的内容
+//
+//    我不是你们想的如此完美
+//    我承认有时也会辨不清真伪
+//    我不删了，我就留着
+//    我不删了，我就留着
+//    我不删了，我就留着
+//    我不删了，我就留着
+//    我不删了，我就留着
+
+</script>
+
+</html>

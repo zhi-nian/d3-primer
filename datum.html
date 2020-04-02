@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>datum</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+
+    <h3></h3>
+    <h3></h3>
+    <h3></h3>
+    <h3></h3>
+
+</body>
+
+<script>
+
+    var h3 = d3.selectAll('h3');
+    h3.datum('我是一只小小小小鸟').text(function (v,i) {
+        return '我是第'+ i +'个h3标签，内容是：'+ v;
+    })
+
+
+//    运行结果如下：
+//    我是第0个h3标签，内容是：我是一只小小小小鸟
+//    我是第1个h3标签，内容是：我是一只小小小小鸟
+//    我是第2个h3标签，内容是：我是一只小小小小鸟
+//    我是第3个h3标签，内容是：我是一只小小小小鸟
+
+</script>
+
+</html>

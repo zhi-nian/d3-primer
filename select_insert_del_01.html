@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+
+<h3>第一个</h3>
+<h3>第二个</h3>
+<h3>第三个</h3>
+<h3>第四个</h3>
+<h3>第五个</h3>
+
+
+</body>
+<script>
+
+    var h3 = d3.select('h3')
+    var text = h3.datum('我把内容改了看看').text();
+    var html = h3.datum('我把内容改了看看').html();
+    console.log(text);
+    console.log(html);
+    //控制台输出结果如下：
+    //第一个
+    //第一个
+    h3.datum('我把内容改了看看').text(function (d,i) {
+        return '<p>'+ d +'</p>';
+    });
+//    执行到这里 页面展示内容如下：
+//    <p>我把内容改了看看</p>
+//    第二个
+//    第三个
+//    第四个
+//    第五个
+
+
+    h3.datum('我把内容改了看看').html(function (d,i) {
+        return '<p>'+ d +'</p>';
+    });
+//    执行到这里 页面展示内容如下：   这里在页面的第一个h3标签里  确实插入了一个p标签
+//    我把内容改了看看
+//    第二个
+//    第三个
+//    第四个
+//    第五个
+
+</script>
+</html>

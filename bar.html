@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+
+<svg width="500" height="400"></svg>
+
+</body>
+
+<script>
+
+    var data = [90,75,12,36,54,88,24,66];
+    var margin = 30;//上下左右边距
+
+    var svg = d3.select('svg');
+    var width = svg.attr('width');
+    var height = svg.attr('height');
+    //创建一个矩形分组
+    var g = svg.append('g').attr('transform','translate('+ margin +','+ margin +')');
+
+    //定义x轴比例尺
+    var scaleX = d3.scaleBand()
+        .domain(d3.range(data.length))//[0, 1, 2, 3, 4, 5, 6, 7]
+        .rangeRound([0,width - margin*2]);//左右边距30
+
+    //定义Y轴比例尺
+    var scaleY = d3.scaleLinear().domain([0,d3.max(data)]).range([height - margin*2,0]);//上边距30   这里还得注意  range后面跟的参数  0放在第二位   因为y轴正方向是反的
+
+    //绘制x y 轴
+    var axisX = d3.axisBottom(scaleX);
+    var axisY = d3.axisLeft(scaleY);
+    g.append('g').attr('transform','translate(0,'+ (height - margin*2) +')').call(axisX);
+    g.append('g').attr('transform','translate(0,0)').call(axisY);
+
+    var rectP = 30;//柱状图间距
+    var gs = g.selectAll('rect').data(data).enter().append('g');//分组
+
+    //绘制矩形
+    gs.append('rect')
+        .attr('x',function (d,i) {
+        return scaleX(i)+rectP/2;
+    }).attr('y',function (d,i) {
+        return scaleY(d);
+    }).attr('width',function () {
+        return scaleX.step() - rectP;
+    }).attr('height',function (d,i) {
+        return    height - margin*2 - scaleY(d);
+    }).attr('fill','pink');
+
+    //绘制文字
+    gs.append('text')
+        .attr('x',function (d,i) {
+            return scaleX(i) + rectP/2;
+        })
+        .attr('y',function (d,i) {
+            return scaleY(d);
+        })
+        .text(function (d,i) {
+            return d;
+        });
+
+</script>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+
+<h3>第一个</h3>
+<p  title="23℃">第二个</p>
+
+
+
+</body>
+<script>
+
+    var h3 = d3.select('h3');
+    var p = d3.select('p');
+    h3.attr('title','我是一个h3标签');//页面中鼠标滑过 显示 '我是一个h3标签'
+    console.log(p.attr('title'));//控制台输出 23℃
+
+
+</script>
+</html>

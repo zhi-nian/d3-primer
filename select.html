@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+
+<h3></h3>
+<h4 id="h4"></h4>
+<h3 title="author"></h3>
+<h3 class="date"></h3>
+
+</body>
+<script>
+
+    var h3 = d3.select("body").selectAll("h3");
+    var h4 = d3.select("h4");
+    var author = d3.select("[title='author']");
+    var date = d3.select(".date");
+    h3.text('日照香炉生紫烟');
+    h4.text('遥看瀑布挂前川');
+    author.text('李白');
+    date.text('2020-3-26');
+
+</script>
+</html>

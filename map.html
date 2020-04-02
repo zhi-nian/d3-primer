@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>中国地图</title>
+    <script src="./d3.min.js"></script>
+</head>
+<body>
+
+<svg width="900" height="700"></svg>
+
+
+</body>
+
+<script>
+
+    //获取svg
+    var svg = d3.select('svg');
+    var width = svg.attr('width');
+    var height = svg.attr('height');
+
+    //创建区域分组
+    var g = svg.append('g').attr('transform','translate(0,0)');
+
+    //创建一个地图投影
+    var mercator = d3.getMercator()
+        .center([107,31])//设置投影的中心点 经纬度
+        .scale(550)//设置缩放因子
+        .translate([width/2,height/2]);//设置平移偏移量
+
+    //创建一个地理路径生成器
+    var geoPath = d3.geoPath()
+        .projection(mercator)//设置地理路径生成器的投影方式
+
+    //获取中国地图的json文件
+    //利用node.js 在本地起一个http-server
+    d3.json('map.json').then(function (data) {//D3 v5版本d3.json()现在将返回一个你可以在.then()方法中处理的Promise
+        console.log(data);//features
+
+        //新建一个颜色比例尺
+        var scaleColor = d3.scaleOrdinal()
+            .domain(d3.range(data.features.length))
+            .range(d3.schemeCategory10);
+
+
+        //绘制区域
+        g.append('g')
+            .selectAll('path')
+            .data(data.features)
+            .enter()
+            .append('path')
+            .attr('stroke','gray')
+            .attr('strok-widht',1)
+            .attr('d',function (d,i) {
+                return geoPath(d);
+            })
+            .attr('fill',function (d,i) {
+                return scaleColor(i);
+            })
+            .on('mouseover',function (d,i) {
+                d3.select(this).attr('fill','yellow');
+            })
+            .on('mouseout',function (d,i) {
+                d3.select(this).attr('fill',scaleColor(i));
+            });
+
+        //绘制文字
+        g.append('g')
+            .selectAll('text')
+            .data(data.features)
+            .enter()
+            .append('text')
+            .attr('font-size',12)
+            .attr('text-anchor', 'middle')
+            .attr('x',function (d,i) {
+                var position = mercator(d.properties.centroid || [0,0]);
+                return position[0];
+            })
+            .attr('y',function (d,i) {
+                var position = mercator(d.properties.centroid || [0,0]);
+                return position[1];
+            })
+            .attr('dy',function (d,i) {
+                //这里为什么这么写呢，因为澳门和香港重合了，挤到一起了。
+                if (d.properties.name === '澳门特别行政区') {
+                    return 10;
+                }
+            })
+            .text(function (d,i) {
+               return d.properties.name;
+            });
+
+    });
+
+</script>
+</html>

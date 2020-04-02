@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+
+<svg width="500" height="400"></svg>
+
+</body>
+
+<script>
+
+    var data = [90,75,12,36,54,88,24,66];
+    var margin = 30;//svg 上下左右边距
+
+    var svg = d3.select('svg');
+    var width = svg.attr('width');
+    var height = svg.attr('height');
+
+    //创建分组
+    var g = svg.append('g').attr('transform','translate('+ margin +','+ margin +')');
+
+    //定义 x y 轴比例尺
+    var scaleX = d3.scaleBand()
+        .domain(d3.range(data.length))
+        .range([0,width - margin*2]);
+    var scaleY = d3.scaleLinear()
+        .domain([0,d3.max(data)])
+        .range([height - margin*2,0]);
+
+    //绘画 x y  轴
+    var axisX = d3.axisBottom(scaleX);
+    var axisY = d3.axisLeft(scaleY);
+
+    g.append('g').attr('transform','translate(0,'+ (height - margin*2) +')').call(axisX);
+    g.append('g').attr('transform','translate(0,0)').call(axisY);
+
+    // 创建矩形分组
+    var gs = g.selectAll('rect').data(data).enter().append('g');
+
+
+    //绘 柱状图  +  过度效果
+    var rectP = 10;//柱状图间距
+    gs.append('rect')
+        .attr('x',function (d,i) {
+            return scaleX(i) + rectP/2;
+        })
+        .attr('y',function (d,i) {
+            return scaleY(d);
+        })
+        .attr('width',function (d,i) {
+            return scaleX.step() - rectP;
+        })
+        .attr('height',function (d,i) {
+            return height - margin*2 - scaleY(d);
+
+        })
+        .attr('fill','pink')
+
+        //添加鼠标划入划出事件
+        .on('mouseover',function () {//鼠标划入矩形事件
+            d3.select(this)//这里的this指向就是当前的矩形
+                .transition()
+                .duration(1000)
+                .delay(200)
+                .attr('fill','#306ade');
+        })
+        .on('mouseout',function () {
+            d3.select(this)
+                .transition()
+                .duration(1000)
+                .delay(200)
+                .attr('fill','pink');
+        })
+
+
+
+    //绘 文字  +  过度效果
+
+    gs.append('text')
+        .attr('x',function (d,i) {
+            return scaleX(i) + rectP/2;
+        })
+        .attr('y',function (d,i) {
+//            return scaleY(d);
+            return height - 2*margin; //这里的初始化效果 同上面的矩形初始化效果一样
+        })
+        .attr('dx',function (d,i) {
+            return -2;
+        })
+        .attr('dy',function (d,i) {
+            return 20;
+        })
+        .text(function (d,i) {
+            return d;
+        })
+        .transition()
+        .duration(2000)
+        .delay(function (d,i) {
+            return i*300;//300毫秒
+        })
+        .attr('y',function (d,i) {
+            return scaleY(d);
+        });
+
+
+</script>
+
+</html>
