@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>中国地图</title>
     <script src="./d3.min.js"></script>
+    <!--<script src="https://d3js.org/d3.v5.min.js"></script>-->
 </head>
 <body>
 
@@ -23,7 +24,7 @@
     var g = svg.append('g').attr('transform','translate(0,0)');
 
     //创建一个地图投影
-    var mercator = d3.getMercator()
+    var mercator = d3.geoMercator()
         .center([107,31])//设置投影的中心点 经纬度
         .scale(550)//设置缩放因子
         .translate([width/2,height/2]);//设置平移偏移量
